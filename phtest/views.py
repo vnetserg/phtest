@@ -50,16 +50,11 @@ def test():
         return redirect(url_for('testlist'))
 
     var = db.get_last_variant(user)
-    if var is None:
+    if var is None or (datetime.now() - var.started).seconds > 90 * 60:
         var = util.make_variant(user)
         db.save_variant(var)
-
-    if (datetime.now() - var.started).seconds > 90 * 60:
-        return redirect(url_for('testlist'))
-
-    # user.attempts -= 1
-    user = user._replace(attempts = user.attempts - 1)
-    db.save_user(user)
+        user.attempts -= 1
+        db.save_user(user)
 
     return render_template('test.html', questions=var.questions)
 

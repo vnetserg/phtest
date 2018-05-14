@@ -9,24 +9,29 @@ Base.metadata.create_all(engine)
 session = Session(engine)
 
 def get_user_by_login(login):
-    if login == "todd":
-        return User(1, "Тоддов Василий Петрович", "todd", 1)
+    return session.query(User).filter(User.login == login).scalar()
 
 def get_user_by_id(uid):
-    if uid == 1:
-        return User(1, "Тоддов Василий Петрович", "todd", 1)
+    return session.query(User).filter(User.id == uid).scalar()
 
 def get_last_variant(user):
-    return None
+    return session.query(Variant).filter(Variant.user_id == user.id) \
+            .order_by(Variant.started.desc()).first()
 
 def save_variant(var):
-    pass
+    session.add(var)
+    session.commit()
 
 def save_user(user):
-    pass
+    session.add(user)
+    session.commit()
 
 def submit_result(result):
-    pass
+    session.add(result)
+    session.commit()
 
 def mark_right_questions(user, question_ids):
-    pass
+    questions = session.query(Question).filter(Question.id.in_(question_ids)).all()
+    user.questions.extend(questions)
+    session.add(user)
+    session.commit()

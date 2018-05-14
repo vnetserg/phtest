@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, Table, ForeignKey 
+from sqlalchemy import Column, Integer, String, DateTime, Table, ForeignKey, \
+        Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -36,6 +37,9 @@ class Question(Base):
     section_id = Column(Integer)
     answers = relationship("Answer", backref="question")
 
+    def is_multi(self):
+        return sum(int(ans.is_correct) for ans in self.answers) > 1
+
 
 class Answer(Base):
     __tablename__ = 'answers'
@@ -43,6 +47,7 @@ class Answer(Base):
     id = Column(Integer, primary_key=True)
     text = Column(String(500))
     question_id = Column(Integer, ForeignKey('questions.id'))
+    is_correct = Column(Boolean)
 
 
 class Result(Base):
