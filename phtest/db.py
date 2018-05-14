@@ -1,7 +1,12 @@
-from collections import namedtuple
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
-User = namedtuple("User", ["id", "name", "login", "attempts"])
-Variant = namedtuple("Variant", ["id", "user_id", "questions", "started"])
+from .models import Base, User, Question, Answer, Variant, Result
+
+engine = create_engine("sqlite:///instance/db.sqlite")
+Base.metadata.create_all(engine)
+
+session = Session(engine)
 
 def get_user_by_login(login):
     if login == "todd":
