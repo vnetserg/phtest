@@ -9,51 +9,53 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		
 	</head>
-	<body>
+	<body >
 		<div class="container">
 			<div class="header">
 				<div class="col-md-12">
 					<h2 class="alert text-center">Федеральное Государственное Бюджетное Образовательное Учереждение Высшего Образования Академия Гражданской Защиты МЧС России</h2>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="container">
-						<div class="text-center"> 
-							<h3>
-								Ответьте на представленные ниже вопросы и не забудьте завершить тестирование для сохранения результатов!
-							</h3>
-						</div>
-						{% for qst in questions %}
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<h3>
-						        	#{{qst.id}} {{ qst.text }}
-					            </h3>
-					        </div>
-							<div class="panel-body">
-						    	{% for ans in qst.answers %}
-		                        <div class="radio">
-									<label>
-										<input type="radio" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}">
-								    		{{ ans.text }}
-									</label>
+				<form method="post" action="/result">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="container">
+								<div class="text-center"> 
+									<h3>
+										Ответьте на представленные ниже вопросы и не забудьте завершить тестирование для сохранения результатов!
+									</h3>
 								</div>
-					            {% endfor %}
+								{% for qst in questions %}
+								<div class="panel panel-info">
+									<div class="panel-heading">
+										<h3>
+								        	#{{qst.id}} {{ qst.text }}
+							            </h3>
+							        </div>
+									<div class="panel-body">
+								    	{% for ans in qst.answers %}
+				                        <div class="{{'checkbox' if qst.is_multi == True else 'radio'}}">
+											<label>
+												<input type="{{'checkbox' if qst.is_multi == True else 'radio'}}" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}">
+										    		{{ ans.text }}
+											</label>
+										</div>
+							            {% endfor %}
+								  	</div>
+								</div>
+								<script>
+									console.log();
+								</script>
+								{% endfor %}		
 						  	</div>
 						</div>
-						<script>
-							console.log();
-						</script>
-						{% endfor %}		
-				  	</div>
+					</div>
+				<div class="row">
+					<div class="col-md-6 col-md-offset-6">
+						<input type="submit" class="btn btn-primary btn-block" value="Завершить тест"/>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-md-offset-6">
-					<input type="submit" class="btn btn-primary btn-block" value="Завершить тест"/>
-				</div>
-			</div>
+			</form>
 		</div>
 	</body>
 </html>

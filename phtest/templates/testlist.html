@@ -25,14 +25,24 @@
 									Добро пожаловать в систему тестирования, {{user.name}}!
 								</h3>
 							</div>
-					    	<form id="testing-start-form" class="form-horizontal" method="GET" action="/test">
+					    	
 				
-				    			<div class="form-group pull-center">
+				    			<div class="row">
 					    			<div class="col-md-8 col-md-offset-2">
-					    				<input type="submit" class="btn btn-primary btn-block" value="Начать тест (осталось попыток: {{ user.attempts }})"/> 
+						    			<form id="testing-start-form" class="form-horizontal" method="GET" action="/test">
+						    				<input type="submit" class="btn btn-primary btn-block {{'disabled' if user.attempts == 0 else ''}}" value="Начать тестирование (Осталось попыток: {{user.attempts}})"/>
+					    				</form> 
 				    				</div>
 				    			</div>
-				    		</form>
+				    			<div 
+				    			<div class="row">
+					    			<div class="col-md-8 col-md-offset-2">
+					    				<form id="testing-start-form" class="form-horizontal" method="GET" action="/">
+						    				<input type="submit" class="btn btn-primary btn-block" value="Выход"/>
+					    				</form> 
+						    		</div>
+				    			</div>
+				    		
 					  	</div>
 					</div>
 				</div>

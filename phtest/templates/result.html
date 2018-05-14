@@ -9,7 +9,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		
 	</head>
-	<body>
+	<body >
 		<div class="container">
 			<div class="header">
 				<div class="col-md-12">
@@ -33,11 +33,17 @@
 					        </div>
 							<div class="panel-body">
 						    	{% for ans in qst.answers %}
-		                        <div class="radio">
+		                        <div class="{{'checkbox' if qst.is_multi == True else 'radio'}} {{ 'alert-success' if ans.is_correct else '' }} {{'alert-danger' if ans.is_chosen and ans.is_correct==false else ''}}">
 									<label>
-										<input type="radio" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}">
-								    		{{ ans.text }}
-									</label>
+										<input type="{{'checkbox' if qst.is_multi == True else 'radio'}}" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}" {{'checked' if ans.is_chosen == True else ''}}>
+								    		{{ ans.text }} 
+									</label> 
+									{%if ans.is_correct%}
+										<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+									{%endif%}
+									{%if ans.is_chosen and ans.is_correct == False%}
+										<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+									{%endif%}
 								</div>
 					            {% endfor %}
 						  	</div>
