@@ -68,21 +68,24 @@ def result():
     var = db.get_last_variant(user)
     if var is None:
         return redirect(url_for('testlist'))
-
+    
+    questions_dump = [qst.to_dict() for qst in var.questions]
     ans_ids = set(request.form.getlist("answer", int))
     right_ids = set()
     result = {"n_correct": 0, "n_wrong": 0, "n_total": 0}
-    for qst in var.questions:
-        for ans in qst.answers:
-            ans.is_chosen = ans.id in ans_ids
-        if qst.answer_correct(ans_ids):
+	
+    for qst in questions_dump:
+        qst["is_multi"] = lambda: True
+        for ans in qst["answers"]:
+            ans["is_chosen"] = ans["id"] in ans_ids
+        if db.Question.answer_correct(qst, ans_ids):
             result["n_correct"] += 1
-            right_ids.add(qst.id)
+            right_ids.add(qst["id"])
         else:
             result["n_wrong"] += 1
         result["n_total"] += 1
 
     db.mark_right_questions(user, right_ids)
-    db.submit_result(qst.make_result(result["n_correct"]))
+    #db.submit_result(db.Question.make_result(result["n_correct"]))
 
-    return render_template('test.html', questions=var.questions, result=result)
+    return render_template('result.html', questions=questions_dump, result=result)

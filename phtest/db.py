@@ -1,12 +1,12 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 from .models import Base, User, Question, Answer, Variant, Result
 
 engine = create_engine("sqlite:///instance/db.sqlite")
 Base.metadata.create_all(engine)
 
-session = Session(engine)
+session = scoped_session(sessionmaker(bind=engine))
 
 def get_user_by_login(login):
     return session.query(User).filter(User.login == login).scalar()
@@ -32,6 +32,6 @@ def submit_result(result):
 
 def mark_right_questions(user, question_ids):
     questions = session.query(Question).filter(Question.id.in_(question_ids)).all()
-    user.questions.extend(questions)
+    user.right_questions.extend(questions)
     session.add(user)
     session.commit()

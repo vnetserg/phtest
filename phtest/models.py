@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, String, DateTime, Table, ForeignKey, \
         Boolean
 from sqlalchemy.orm import relationship
@@ -38,7 +40,20 @@ class Question(Base):
     answers = relationship("Answer", backref="question")
 
     def is_multi(self):
-        return sum(int(ans.is_correct) for ans in self.answers) > 1
+        return True
+        #return sum(int(ans.is_correct) for ans in self.answers) > 1
+    
+    @staticmethod
+    def answer_correct(qst_json, ans_ids):
+        return True
+    
+    def make_result(self, n_correct):
+        return Result(user_id=self.id, n_correct=n_correct, n_total=len(self.answers),
+                      datetime=datetime.now())
+
+    def to_dict(self):
+        return {"id": self.id, "text": self.text, "section_id": self.section_id,
+				"answers": [ans.to_dict() for ans in self.answers]}
 
 
 class Answer(Base):
@@ -48,6 +63,9 @@ class Answer(Base):
     text = Column(String(500))
     question_id = Column(Integer, ForeignKey('questions.id'))
     is_correct = Column(Boolean)
+
+    def to_dict(self):
+        return {"id": self.id, "text": self.text, "is_correct": self.is_correct}
 
 
 class Result(Base):

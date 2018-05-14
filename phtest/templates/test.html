@@ -34,9 +34,9 @@
 							        </div>
 									<div class="panel-body">
 								    	{% for ans in qst.answers %}
-				                        <div class="{{'checkbox' if qst.is_multi == True else 'radio'}}">
+				                        <div class="{{'checkbox' if qst.is_multi() == True else 'radio'}}">
 											<label>
-												<input type="{{'checkbox' if qst.is_multi == True else 'radio'}}" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}">
+												<input type="{{'checkbox' if qst.is_multi() == True else 'radio'}}" name="answer" value="{{ans.id}}" id="{{ans.id}}">
 										    		{{ ans.text }}
 											</label>
 										</div>
