@@ -1,14 +1,42 @@
-from flask import render_template
+from flask import render_template, session, request, redirect, url_for
 
 from phtest import app
+from . import db
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html', noauth=False)
+    noauth = bool(request.args.get("noauth"))
+    return render_template('index.html', noauth=noauth)
+
+@app.route('/login', methods=['POST'])
+def login():
+    login_failed = redirect(url_for('index', noauth=1))
+    login = request.form.get("login")
+    if login is None:
+        return login_failed
+    user = db.get_user_by_login(login)
+    if user is None:
+        return login_failed
+    session["user_id"] = user.id
+    return redirect(url_for('testlist'))
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    if "user_id" in session:
+        del session["user_id"]
+    return redirect(url_for('index'))
 
 @app.route('/testlist', methods=['GET', 'POST'])
 def testlist():
-    return render_template('testlist.html', username="Петров Василий", attempts=1)
+    uid = session.get("user_id")
+    need_login = redirect(url_for('index'))
+    if uid is None:
+        return need_login
+    else:
+        user = db.get_user_by_id(uid)
+    if user is None:
+        return need_login
+    return render_template('testlist.html', user=user)
 
 @app.route('/test', methods=['GET'])
 def test():
