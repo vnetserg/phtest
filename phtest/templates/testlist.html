@@ -1,10 +1,42 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Система тестирования АГЗ МЧС</title>
-    </head>
-    </body>
-        <h1>Система тестирования по ФП АГЗ МЧС</h1>
-        <h2>Дороу, {{ user.name }}!</h2>
-        У тебя осталось {{ user.attempts }} попыток.
-    </body>
+	<head>
+		<meta charset="utf-8">
+		<title></title> 
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+	</head>
+	<body>
+		<div class="container">
+			<div class="header">
+				<div class="col-md-12">
+					<h2 class="alert text-center">Федеральное Государственное Бюджетное Образовательное Учереждение Высшего Образования Академия Гражданской Защиты МЧС России</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel">
+						<div class="panel-body">
+							<div class="text-center"> 
+								<h3>
+									Добро пожаловать в систему тестирования, {{user.name}}!
+								</h3>
+							</div>
+					    	<form id="testing-start-form" class="form-horizontal" method="GET" action="/test">
+				
+				    			<div class="form-group pull-center">
+					    			<div class="col-md-8 col-md-offset-2">
+					    				<input type="submit" class="btn btn-primary btn-block" value="Начать тест (осталось попыток: {{ user.attempts }})"/> 
+				    				</div>
+				    			</div>
+				    		</form>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

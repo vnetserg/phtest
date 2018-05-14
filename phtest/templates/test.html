@@ -1,19 +1,59 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Система тестирования АГЗ МЧС</title>
-    </head>
-    </body>
-        <h1>Ты проходишь тест!</h1>
-        {% for qst in questions %}
-            <hr>
-            <div>
-                {{ qst.text }}
-                <ul>
-                    {% for ans in qst.answers %}
-                        <li>{{ ans.text }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endfor %}
-    </body>
+	<head>
+		<meta charset="utf-8">
+		<title></title> 
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+	</head>
+	<body>
+		<div class="container">
+			<div class="header">
+				<div class="col-md-12">
+					<h2 class="alert text-center">Федеральное Государственное Бюджетное Образовательное Учереждение Высшего Образования Академия Гражданской Защиты МЧС России</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="container">
+						<div class="text-center"> 
+							<h3>
+								Ответьте на представленные ниже вопросы и не забудьте завершить тестирование для сохранения результатов!
+							</h3>
+						</div>
+						{% for qst in questions %}
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<h3>
+						        	#{{qst.id}} {{ qst.text }}
+					            </h3>
+					        </div>
+							<div class="panel-body">
+						    	{% for ans in qst.answers %}
+		                        <div class="radio">
+									<label>
+										<input type="radio" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}">
+								    		{{ ans.text }}
+									</label>
+								</div>
+					            {% endfor %}
+						  	</div>
+						</div>
+						<script>
+							console.log();
+						</script>
+						{% endfor %}		
+				  	</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-6">
+					<input type="submit" class="btn btn-primary btn-block" value="Завершить тест"/>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
