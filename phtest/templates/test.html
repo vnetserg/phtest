@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Система тестирования АГЗ МЧС</title>
+    </head>
+    </body>
+        <h1>Ты проходишь тест!</h1>
+        {% for qst in questions %}
+            <hr>
+            <div>
+                {{ qst.text }}
+                <ul>
+                    {% for ans in qst.answers %}
+                        <li>{{ ans.text }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </body>
+</html>
