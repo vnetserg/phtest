@@ -4,7 +4,7 @@ from phtest import app
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html', noauth=True)
+    return render_template('index.html', noauth=False)
 
 @app.route('/testlist', methods=['GET', 'POST'])
 def testlist():
