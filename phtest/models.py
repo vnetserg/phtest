@@ -24,10 +24,10 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(50))
-    group = Column(String(20))
-    login = Column(String(20))
-    attempts = Column(Integer)
+    name = Column(String(50), nullable=False)
+    group = Column(String(20), nullable=False)
+    login = Column(String(20), nullable=False)
+    attempts = Column(Integer, nullable=False)
 
     right_questions = relationship("Question", secondary=user_right_qst_table)
 
@@ -39,8 +39,8 @@ class Question(Base):
     __tablename__ = 'questions'
 
     id = Column(Integer, primary_key=True)
-    text = Column(Text(1000))
-    section_id = Column(Integer)
+    text = Column(Text(1000), nullable=False)
+    section_id = Column(Integer, nullable=False)
     answers = relationship("Answer", backref="question")
 
     def is_multi(self):
@@ -57,37 +57,37 @@ class Answer(Base):
     __tablename__ = 'answers'
 
     id = Column(Integer, primary_key=True)
-    text = Column(String(500))
-    question_id = Column(Integer, ForeignKey('questions.id'))
-    is_correct = Column(Boolean)
+    text = Column(String(500), nullable=False)
+    question_id = Column(Integer, ForeignKey('questions.id'), nullable=False)
+    is_correct = Column(Boolean, nullable=False)
 
     def __str__(self):
         return f"#{self.id}. {self.text}"
-
-
-class Result(Base):
-    __tablename__ = 'results'
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    n_correct = Column(Integer)
-    n_total = Column(Integer)
-    datetime = Column(DateTime)
-
-    user = relationship(User)
 
 
 class Variant(Base):
     __tablename__ = 'variants'
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    started = Column(DateTime)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    started = Column(DateTime, nullable=False)
 
     user = relationship(User)
     questions = relationship("Question", secondary=var_to_qst_table)
 
     def make_result(self, n_correct):
-        return Result(user_id=self.user_id, n_correct=n_correct,
+        return Result(variant=self, n_correct=n_correct,
                       n_total=len(self.questions), datetime=datetime.now())
+
+
+class Result(Base):
+    __tablename__ = 'results'
+
+    id = Column(Integer, primary_key=True)
+    variant_id = Column(Integer, ForeignKey('variants.id'), nullable=False)
+    n_correct = Column(Integer, nullable=False)
+    n_total = Column(Integer, nullable=False)
+    datetime = Column(DateTime, nullable=False)
+
+    variant = relationship(Variant)
 

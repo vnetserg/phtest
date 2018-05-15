@@ -40,3 +40,10 @@ def mark_right_questions(user, question_ids):
     user.right_questions.extend(questions)
     session.add(user)
     session.commit()
+
+def get_unanswered_questions(user):
+    qst_ids = [qst.id for qst in user.right_questions]
+    return session.query(Question).filter(~Question.id.in_(qst_ids)).all()
+
+def variant_finished(var):
+    return session.query(Result).filter(Result.variant_id == var.id).limit(1).count() == 1

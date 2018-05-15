@@ -1,3 +1,5 @@
+from flask_admin.form import rules
+
 from flask import request, session, url_for, redirect
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
@@ -32,15 +34,18 @@ class QuestionModelView(ModelView):
 
 class ResultModelView(ModelView):
     column_labels = {
-        "user": "Пользователь",
         "n_correct": "Правильных ответов",
         "n_total": "Всего вопросов",
-        "datetime": "Время окончания"
+        "datetime": "Время окончания",
+        "variant": "Пользователь"
     }
     column_formatters = {
-        "datetime": lambda v, c, m, p: m.datetime.strftime("%H:%M:%S %d.%m.%Y")
+        "datetime": lambda v, c, m, p: m.datetime.strftime("%H:%M:%S %d.%m.%Y"),
+        "variant": lambda v, c, m, p: f"{m.variant.user.name} ({m.variant.user.group})"
     }
-    column_default_sort = "datetime"
+    column_sortable_list = list(column_labels.keys())
+
+    column_default_sort = ("datetime", True)
     action_disallowed_list = ["delete"]
 
     def is_editable(self, name):
@@ -50,6 +55,7 @@ class LogoutView(BaseView):
     @expose("/")
     def index(self):
         return redirect(url_for("logout"))
+
 
 admin.add_view(UserModelView(db.User, db.session, name="Пользователи"))
 admin.add_view(QuestionModelView(db.Question, db.session, name="Вопросы"))

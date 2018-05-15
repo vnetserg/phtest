@@ -50,7 +50,8 @@ def test():
         return redirect(url_for('testlist'))
 
     var = db.get_last_variant(user)
-    if var is None or (datetime.now() - var.started).seconds > 90 * 60:
+    if var is None or db.variant_finished(var) \
+    or (datetime.now() - var.started).seconds > 90 * 60:
         var = util.make_variant(user)
         db.save_variant(var)
         user.attempts -= 1
@@ -66,7 +67,8 @@ def result():
         return redirect(url_for('index'))
 
     var = db.get_last_variant(user)
-    if var is None:
+    if var is None or db.variant_finished(var) \
+    or (datetime.now() - var.started).seconds > 90 * 60:
         return redirect(url_for('testlist'))
     
     is_chosen = {}
