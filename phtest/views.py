@@ -7,6 +7,9 @@ from . import db
 from . import util
 
 
+ADMIN_LOGIN = "admin"
+
+
 @app.route('/', methods=['GET'])
 def index():
     noauth = bool(request.args.get("noauth"))
@@ -19,9 +22,14 @@ def login():
     login = request.form.get("login")
     if not login:
         return login_failed
+    if login == ADMIN_LOGIN:
+        session["is_admin"] = True
+        return redirect(url_for('admin.index'))
     user = db.get_user_by_login(login)
     if user is None:
         return login_failed
+    if "is_admin" in session:
+        del session["is_admin"]
     session["user_id"] = user.id
     return redirect(url_for('testlist'))
 
@@ -30,6 +38,8 @@ def login():
 def logout():
     if "user_id" in session:
         del session["user_id"]
+    if "is_admin" in session:
+        del session["is_admin"]
     return redirect(url_for('index'))
 
 

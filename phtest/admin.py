@@ -1,16 +1,28 @@
 from flask_admin.form import rules
 
 from flask import request, session, url_for, redirect
-from flask_admin import Admin, BaseView, expose
+from flask_admin import Admin, AdminIndexView, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_babelex import Babel
 
 from phtest import app, db
 
 
-admin = Admin(app, name="Тесторивание ФП")
+class AuthRequiredView(ModelView):
+    def is_accessible(self):
+        return session.get("is_admin") is True
 
-class UserModelView(ModelView):
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('index'))
+
+class AdminAuthIndexView(AdminIndexView):
+    def is_accessible(self):
+        return session.get("is_admin") is True
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('index'))
+
+class UserModelView(AuthRequiredView):
     column_default_sort = "name"
     column_labels = {
         "name": "ФИО",
@@ -20,7 +32,7 @@ class UserModelView(ModelView):
     }
     form_excluded_columns = ("right_questions",)
 
-class QuestionModelView(ModelView):
+class QuestionModelView(AuthRequiredView):
     inline_models = [(db.Answer, {"column_labels": {
         "text": "Текст",
         "is_correct": "Верный"
@@ -32,7 +44,7 @@ class QuestionModelView(ModelView):
     }
     column_default_sort = ("section_id", "text")
 
-class ResultModelView(ModelView):
+class ResultModelView(AuthRequiredView):
     column_labels = {
         "n_correct": "Правильных ответов",
         "n_total": "Всего вопросов",
@@ -56,6 +68,7 @@ class LogoutView(BaseView):
     def index(self):
         return redirect(url_for("logout"))
 
+admin = Admin(app, name="Тесторивание ФП", index_view=AdminAuthIndexView())
 
 admin.add_view(UserModelView(db.User, db.session, name="Пользователи"))
 admin.add_view(QuestionModelView(db.Question, db.session, name="Вопросы"))
