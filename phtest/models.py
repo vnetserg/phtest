@@ -67,6 +67,9 @@ class Answer(Base):
     def to_dict(self):
         return {"id": self.id, "text": self.text, "is_correct": self.is_correct}
 
+    def __str__(self):
+        return f"#{self.id}. {self.text}"
+
 
 class Result(Base):
     __tablename__ = 'results'

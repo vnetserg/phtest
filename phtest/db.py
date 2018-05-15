@@ -6,7 +6,9 @@ from .models import Base, User, Question, Answer, Variant, Result
 engine = create_engine("sqlite:///instance/db.sqlite")
 Base.metadata.create_all(engine)
 
-session = scoped_session(sessionmaker(bind=engine))
+session = scoped_session(sessionmaker(autocommit=False,
+                                      autoflush=False,
+                                      bind=engine))
 
 def get_user_by_login(login):
     return session.query(User).filter(User.login == login).scalar()
