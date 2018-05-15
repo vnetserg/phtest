@@ -43,18 +43,11 @@ class Question(Base):
         return True
         #return sum(int(ans.is_correct) for ans in self.answers) > 1
     
-    @staticmethod
-    def answer_correct(qst_json, ans_ids):
-        return True
+    def answer_correct(self, ans_ids):
+        right_ids = {ans.id for ans in self.answers if ans.is_correct}
+        wrong_ids = {ans.id for ans in self.answers if not ans.is_correct}
+        return not (right_ids - ans_ids) and not (wrong_ids & ans_ids)
     
-    def make_result(self, n_correct):
-        return Result(user_id=self.id, n_correct=n_correct, n_total=len(self.answers),
-                      datetime=datetime.now())
-
-    def to_dict(self):
-        return {"id": self.id, "text": self.text, "section_id": self.section_id,
-				"answers": [ans.to_dict() for ans in self.answers]}
-
 
 class Answer(Base):
     __tablename__ = 'answers'
@@ -63,9 +56,6 @@ class Answer(Base):
     text = Column(String(500))
     question_id = Column(Integer, ForeignKey('questions.id'))
     is_correct = Column(Boolean)
-
-    def to_dict(self):
-        return {"id": self.id, "text": self.text, "is_correct": self.is_correct}
 
     def __str__(self):
         return f"#{self.id}. {self.text}"
@@ -93,4 +83,7 @@ class Variant(Base):
     user = relationship(User)
     questions = relationship("Question", secondary=var_to_qst_table)
 
+    def make_result(self, n_correct):
+        return Result(user_id=self.user_id, n_correct=n_correct,
+                      n_total=len(self.questions), datetime=datetime.now())
 

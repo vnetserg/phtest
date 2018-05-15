@@ -33,15 +33,15 @@
 					        </div>
 							<div class="panel-body">
 						    	{% for ans in qst.answers %}
-		                        <div class="{{'checkbox' if qst.is_multi() else 'radio'}} {{ 'alert-success' if ans.is_correct else '' }} {{'alert-danger' if ans.is_chosen and not ans.is_correct else ''}}">
+		                        <div class="{{'checkbox' if qst.is_multi() else 'radio'}} {{ 'alert-success' if ans.is_correct else '' }} {{'alert-danger' if is_chosen[ans] and not ans.is_correct else ''}}">
 									<label>
-										<input type="{{'checkbox' if qst.is_multi() == True else 'radio'}}" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}" {{'checked' if ans.is_chosen == True else ''}}>
+										<input type="{{'checkbox' if qst.is_multi() == True else 'radio'}}" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}" {{'checked' if is_chosen[ans] else ''}}>
 								    		{{ ans.text }}
 									</label> 
 									{%if ans.is_correct%}
 										<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
 									{%endif%}
-									{%if ans.is_chosen and ans.is_correct == False%}
+									{%if is_chosen[ans] and ans.is_correct == False%}
 										<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
 									{%endif%}
 								</div>

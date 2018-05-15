@@ -9,5 +9,6 @@ def get_user_from_session(session):
     return user
 
 def make_variant(user):
-    questions = db.session.query(Questions).all()
-    return db.Variant(user_id=1, started=datetime.now(), questions=questions)
+    questions = db.session.query(db.Question).all()
+    return db.Variant(user_id=user.id, started=datetime.now(),
+                      questions=questions)

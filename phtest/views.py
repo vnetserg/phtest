@@ -69,23 +69,23 @@ def result():
     if var is None:
         return redirect(url_for('testlist'))
     
-    questions_dump = [qst.to_dict() for qst in var.questions]
+    is_chosen = {}
     ans_ids = set(request.form.getlist("answer", int))
-    right_ids = set()
+    right_qst_ids = set()
     result = {"n_correct": 0, "n_wrong": 0, "n_total": 0}
 	
-    for qst in questions_dump:
-        qst["is_multi"] = lambda: True
-        for ans in qst["answers"]:
-            ans["is_chosen"] = ans["id"] in ans_ids
-        if db.Question.answer_correct(qst, ans_ids):
+    for qst in var.questions:
+        for ans in qst.answers:
+            is_chosen[ans] = ans.id in ans_ids
+        if qst.answer_correct(ans_ids):
             result["n_correct"] += 1
-            right_ids.add(qst["id"])
+            right_qst_ids.add(qst.id)
         else:
             result["n_wrong"] += 1
         result["n_total"] += 1
 
-    db.mark_right_questions(user, right_ids)
-    #db.submit_result(db.Question.make_result(result["n_correct"]))
+    db.mark_right_questions(user, right_qst_ids)
+    db.submit_result(var.make_result(result["n_correct"]))
 
-    return render_template('result.html', questions=questions_dump, result=result)
+    return render_template('result.html', questions=var.questions,
+                           is_chosen=is_chosen, result=result)
