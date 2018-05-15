@@ -9,6 +9,10 @@ app.secret_key = os.urandom(12)
 
 Session(app)
 
+from . import db
+
+db.init_db()
+
 from . import views
 from . import admin
 

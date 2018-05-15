@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, Table, ForeignKey, \
-        Boolean
+from sqlalchemy import Column, Integer, String, Text, DateTime, Table, \
+        ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -25,17 +25,21 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
+    group = Column(String(20))
     login = Column(String(20))
     attempts = Column(Integer)
 
     right_questions = relationship("Question", secondary=user_right_qst_table)
+
+    def __str__(self):
+        return f"{self.name} ({self.group})"
 
 
 class Question(Base):
     __tablename__ = 'questions'
 
     id = Column(Integer, primary_key=True)
-    text = Column(String(1000))
+    text = Column(Text(1000))
     section_id = Column(Integer)
     answers = relationship("Answer", backref="question")
 
