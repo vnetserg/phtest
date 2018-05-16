@@ -9,46 +9,56 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		
 	</head>
-	<body >
+	<body style="background-image: url(../static/gerb.png); background-repeat: no-repeat; background-attachment: fixed;">
 		<div class="container">
-			<div class="header">
-				<div class="col-md-12">
-					<h2 class="alert text-center">Федеральное Государственное Бюджетное Образовательное Учереждение Высшего Образования Академия Гражданской Защиты МЧС России</h2>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="container">
+						<div class="header_main" style="margin: 0px; z-index: 0; height: 100px;">
+							<div class="header" style="height: 100px; position: fixed; z-index: 9999; background-color: #ffffff;">
+								<div class="col-md-9">
+									<h2 class="text-center">Федеральное Государственное Бюджетное Образовательное Учереждение Высшего Образования Академия Гражданской Защиты МЧС России
+									</h2>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="container">
 						<div class="text-center"> 
 							<h3>
-								Ответьте на представленные ниже вопросы и не забудьте завершить тестирование для сохранения результатов!
+								На данной странцие вы можете ознакомиться со своими результатами!
 							</h3>
 						</div>
-						{% for qst in questions %}
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<h3>
-						        	#{{loop.index}} {{ qst.text }}
-					            </h3>
-					        </div>
-							<div class="panel-body">
-						    	{% for ans in qst.answers %}
-		                        <div class="{{'checkbox' if qst.is_multi() else 'radio'}} {{ 'alert-success' if ans.is_correct else '' }} {{'alert-danger' if is_chosen[ans] and not ans.is_correct else ''}}">
-									<label>
-										<input type="{{'checkbox' if qst.is_multi() == True else 'radio'}}" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}" {{'checked' if is_chosen[ans] else ''}}>
-								    		{{ ans.text }}
-									</label> 
-									{%if ans.is_correct%}
-										<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
-									{%endif%}
-									{%if is_chosen[ans] and ans.is_correct == False%}
-										<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
-									{%endif%}
-								</div>
-					            {% endfor %}
-						  	</div>
-						</div>
-						{% endfor %}		
+						<div style="overflow-y: auto; height: 500px">
+							{% for qst in questions %}
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<h3>
+							        	#{{loop.index}} {{ qst.text }}
+						            </h3>
+						        </div>
+								<div class="panel-body">
+							    	{% for ans in qst.answers %}
+			                        <div class="{{'checkbox' if qst.is_multi() else 'radio'}} {{ 'alert-success' if ans.is_correct else '' }} {{'alert-danger' if is_chosen[ans] and not ans.is_correct else ''}}">
+										<label>
+											<input type="{{'checkbox' if qst.is_multi() == True else 'radio'}}" name={{qst.id}} value="{{ans.id}}" id="{{ans.id}}" {{'checked' if is_chosen[ans] else ''}}>
+									    		{{ ans.text }}
+										</label> 
+										{%if ans.is_correct%}
+											<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+										{%endif%}
+										{%if is_chosen[ans] and ans.is_correct == False%}
+											<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+										{%endif%}
+									</div>
+						            {% endfor %}
+							  	</div>
+							</div>
+							{% endfor %}
+						</div>		
 				  	</div>
 				</div>
 			</div>
