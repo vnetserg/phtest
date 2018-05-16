@@ -7,9 +7,6 @@ from . import db
 from . import util
 
 
-ADMIN_LOGIN = "admin"
-
-
 @app.route('/', methods=['GET'])
 def index():
     noauth = bool(request.args.get("noauth"))
@@ -22,7 +19,7 @@ def login():
     login = request.form.get("login")
     if not login:
         return login_failed
-    if login == ADMIN_LOGIN:
+    if login == app.config["ADMIN_LOGIN"]:
         session["is_admin"] = True
         if "user_id" in session:
             del session["user_id"]

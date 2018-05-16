@@ -1,9 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
+from . import app
 from .models import Base, User, Question, Answer, Variant, Result
 
-engine = create_engine("sqlite:///instance/db.sqlite")
+engine = create_engine(app.config["SQLA_DATABASE_URI"])
 
 session = scoped_session(sessionmaker(autocommit=False,
                                       autoflush=False,

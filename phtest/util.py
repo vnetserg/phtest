@@ -1,6 +1,7 @@
 from datetime import datetime
 import random
 
+from . import app
 from . import db
 
 def get_user_from_session(session):
@@ -15,7 +16,6 @@ def variant_expired(var):
         or (datetime.now() - var.started).seconds > 90 * 60
 
 def make_variant(user):
-    SECTIONS_COUNT = [4, 4, 4, 4, 4, 4]
     questions = set(db.get_unanswered_questions(user))
 
     sec_questions = {}
@@ -27,9 +27,9 @@ def make_variant(user):
 
     chosen = []
     for sec, s_qst in sec_questions.items():
-        if not (0 <= sec < len(SECTIONS_COUNT)):
+        if not (0 <= sec < len(app.config["SECTIONS_COUNT"])):
             continue
-        cnt = SECTIONS_COUNT[sec]
+        cnt = app.config["SECTIONS_COUNT"][sec]
         if len(s_qst) <= cnt:
             subset = s_qst
         else:
@@ -37,7 +37,7 @@ def make_variant(user):
         chosen.extend(subset)
         questions -= set(subset)
 
-    need = sum(SECTIONS_COUNT) - len(chosen)
+    need = sum(app.config["SECTIONS_COUNT"]) - len(chosen)
     if need > 0:
         if len(questions) > need:
             chosen.extend(random.sample(questions, need))
