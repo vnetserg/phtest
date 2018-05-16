@@ -41,7 +41,8 @@ class Question(Base):
     id = Column(Integer, primary_key=True)
     text = Column(Text(1000), nullable=False)
     section_id = Column(Integer, nullable=False)
-    answers = relationship("Answer", backref="question")
+    answers = relationship("Answer", backref="question",
+            order_by="Answer.text")
 
     def is_multi(self):
         return True
