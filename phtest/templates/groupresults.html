@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title> 
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-6">
+					<h1 class="text-center">
+						Отчет о прохождении тестирования
+					</h1>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-md-6">
+					<h3 class="text-left">
+						Специальность/направление подготовки
+					</h3>
+				</div>
+				<div class="col-md-6">
+					<h3 class="text-center">
+						<ins>
+							{{group.speciality}}
+						</ins>
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<h3 class="text-left">
+						Дисциплина
+					</h3>
+				</div>
+				<div class="col-md-6">
+					<h3 class="text-center">
+						<ins>
+							{{group.discipline}}
+						</ins>
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<h3 class="text-left">
+						Цикл дисциплины
+					</h3>
+				</div>
+				<div class="col-md-6">
+					<h3 class="text-center">
+						<ins>
+							{{group.disc_cicle}}
+						</ins>
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<h3 class="text-left">
+						Курс, группы
+					</h3>
+				</div>
+				<div class="col-md-6">
+					<h3 class="text-center">
+						<ins>
+							{{group.course}}
+						</ins>
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<h3 class="text-left">
+						Количество студентов на курсе 
+					</h3>
+				</div>
+				<div class="col-md-6">
+					<h3 class="text-center">
+						<ins>
+							{{group.students_count}}
+						</ins>
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<h3 class="text-left">
+						Количество студентов, участвующих в тестировании  
+					</h3>
+				</div>
+				<div class="col-md-6">
+					<h3 class="text-center">
+						<ins>
+							{{group.testing_students_count}}
+						</ins>
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h3 class="text-left">
+						Количество и процентное соотношение студентов, получивших отметку:  
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-11 col-md-offset-1">
+					<ul>
+						<li> отлично <ins>{{group.A_degree}}</ins></li>
+						<li> хорошо <ins>{{group.B_degree}}</ins></li>
+						<li> удовлетворительно <ins>{{group.C_degree}}</ins></li>
+						<li> неудовлетворительно <ins>{{group.D_degree}}</ins></li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<h3 class="text-left">
+						Количество и процентное соотношение студентов, освоивших все ДЕ  
+					</h3>
+				</div>
+				<div class="col-md-6">
+					<h3 class="text-center">
+						<ins>
+							{{group.passed_students}}
+						</ins>
+					</h3>
+				</div>
+			</div>
+			<br />
+			<br />
+			<div class="row">
+				<div class="col-md-6">
+					<h3 class="text-left">
+						Обработка результатов проведена   
+					</h3>
+				</div>
+				<div class="col-md-6">
+					<h3 class="text-center">
+						<ins>
+							{{group.teacher}} ________
+						</ins>
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-6">
+					<h6 class="text-center">
+						   (ученая степень, должность, Ф.И.О., подпись)
+					</h6>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h4 class="text-left">
+						«<ins>{{date.day}}</ins>»<ins>{{date.month}}</ins>20<ins>{{date.year}}</ins>
+					</h4>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
