@@ -73,16 +73,24 @@ class ResultModelView(AuthRequiredView):
         "n_correct": "Правильных ответов",
         "n_total": "Всего вопросов",
         "datetime": "Время окончания",
-        "variant": "Пользователь"
+        "user": "Пользователь",
+        "user.name": "Пользователь / ФИО",
+        "user.group": "Пользователь / Группа",
+        "user.login": "Пользователь / Логин",
+        "user.attempts": "Пользователь / Число попыток",
     }
     column_formatters = {
         "datetime": lambda v, c, m, p: m.datetime.strftime("%H:%M:%S %d.%m.%Y"),
-        "variant": lambda v, c, m, p: f"{m.variant.user.name} ({m.variant.user.group})"
+        "user": lambda v, c, m, p: f"{m.user.name} ({m.user.group})"
     }
-    column_filters = ["n_correct", "n_total", "datetime"]
+    column_filters = ["user.name", "user.login", "user.group", "user.attempts",
+                      "n_correct", "n_total", "datetime"]
+    column_exclude_list = ["variant"]
+    form_excluded_columns = ["variant"]
 
+    column_sortable_list = [("user", "user.name"), "n_correct",
+                            "n_total", "datetime"]
     column_default_sort = ("datetime", True)
-    action_disallowed_list = ["delete"]
 
     def is_editable(self, name):
         return False
