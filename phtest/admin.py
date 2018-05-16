@@ -70,7 +70,7 @@ class QuestionModelView(AuthRequiredView):
         "section_id": "Номер секции",
         "answers": "Вариант Ответа"
     }
-    column_default_sort = ("section_id", "text")
+    column_default_sort = "text"
     column_filters = ["text", "section_id"]
 
 class ResultModelView(AuthRequiredView):
