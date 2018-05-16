@@ -24,6 +24,8 @@ def login():
         return login_failed
     if login == ADMIN_LOGIN:
         session["is_admin"] = True
+        if "user_id" in session:
+            del session["user_id"]
         return redirect(url_for('admin.index'))
     user = db.get_user_by_login(login)
     if user is None:
