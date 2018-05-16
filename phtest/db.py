@@ -45,5 +45,10 @@ def get_unanswered_questions(user):
     qst_ids = [qst.id for qst in user.right_questions]
     return session.query(Question).filter(~Question.id.in_(qst_ids)).all()
 
+def no_questions(user):
+    qst_ids = [qst.id for qst in user.right_questions]
+    return session.query(Question).filter(~Question.id.in_(qst_ids)).limit(1).first() is None
+
+
 def variant_finished(var):
     return session.query(Result).filter(Result.variant_id == var.id).limit(1).count() == 1

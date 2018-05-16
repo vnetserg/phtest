@@ -51,8 +51,10 @@ def testlist():
         
     var = db.get_last_variant(user)
     continue_test = not util.variant_expired(var)
+    no_questions = not continue_test and db.no_questions(user)
     
-    return render_template('testlist.html', user=user, continue_test=continue_test)
+    return render_template('testlist.html', user=user,
+            continue_test=continue_test, no_questions=no_questions)
 
 
 @app.route('/test', methods=['GET'])
@@ -66,6 +68,8 @@ def test():
     var = db.get_last_variant(user)
     if util.variant_expired(var):
         var = util.make_variant(user)
+        if not var.questions:
+            return redirect(url_for('testlist'))
         db.save_variant(var)
         user.attempts -= 1
         db.save_user(user)
