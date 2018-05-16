@@ -1,17 +1,24 @@
 import os
 
 from sqlalchemy import create_engine
+from sqlalchemy.interfaces import PoolListener
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 from . import app
 from .models import Base, User, Question, Answer, Variant, Result
+
 
 if os.path.isabs(app.config["SQLITE_PATH"]):
     sqla_uri = os.path.join("sqlite:////", app.config["SQLITE_PATH"])
 else:
     sqla_uri = "sqlite:///" + os.path.join(os.path.dirname(os.path.dirname(__file__)), app.config["SQLITE_PATH"])
 
-engine = create_engine(sqla_uri)
+
+class ForeignKeysListener(PoolListener):
+    def connect(self, dbapi_con, con_record):
+        db_cursor = dbapi_con.execute('pragma foreign_keys=ON')
+
+engine = create_engine(sqla_uri, listeners=[ForeignKeysListener()])
 
 session = scoped_session(sessionmaker(autocommit=False,
                                       autoflush=False,

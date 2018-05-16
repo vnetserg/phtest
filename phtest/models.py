@@ -42,7 +42,8 @@ class Question(Base):
     text = Column(Text(1000), nullable=False)
     section_id = Column(Integer, nullable=False)
     answers = relationship("Answer", backref="question",
-            order_by="Answer.text")
+                           cascade="all,delete,delete-orphan",
+                           passive_deletes=True, order_by="Answer.text")
 
     def is_multi(self):
         return True
@@ -68,7 +69,9 @@ class Answer(Base):
 
     id = Column(Integer, primary_key=True)
     text = Column(String(500), nullable=False)
-    question_id = Column(Integer, ForeignKey('questions.id'), nullable=False)
+    question_id = Column(Integer, ForeignKey('questions.id',
+                                             ondelete='CASCADE'),
+                         nullable=False)
     is_correct = Column(Boolean, nullable=False)
 
     def __str__(self):
