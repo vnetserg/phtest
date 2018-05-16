@@ -25,6 +25,7 @@ class AdminAuthIndexView(AdminIndexView):
 
 class UserModelView(AuthRequiredView):
     column_default_sort = "name"
+    column_filters = ["name", "group", "login", "attempts"]
     column_labels = {
         "name": "ФИО",
         "group": "Группа",
@@ -65,6 +66,7 @@ class QuestionModelView(AuthRequiredView):
         "answers": "Вариант Ответа"
     }
     column_default_sort = ("section_id", "text")
+    column_filters = ["text", "section_id"]
 
 class ResultModelView(AuthRequiredView):
     column_labels = {
@@ -77,7 +79,7 @@ class ResultModelView(AuthRequiredView):
         "datetime": lambda v, c, m, p: m.datetime.strftime("%H:%M:%S %d.%m.%Y"),
         "variant": lambda v, c, m, p: f"{m.variant.user.name} ({m.variant.user.group})"
     }
-    column_sortable_list = list(column_labels.keys())
+    column_filters = ["n_correct", "n_total", "datetime"]
 
     column_default_sort = ("datetime", True)
     action_disallowed_list = ["delete"]
