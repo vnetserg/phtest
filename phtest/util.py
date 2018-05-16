@@ -16,6 +16,8 @@ def variant_expired(var):
         or (datetime.now() - var.started).seconds > 90 * 60
 
 def make_variant(user):
+    sections_count = {i: count for i, count in
+                      enumerate(app.config["SECTIONS_COUNT"], start=1)}
     questions = set(db.get_unanswered_questions(user))
 
     sec_questions = {}
@@ -27,9 +29,9 @@ def make_variant(user):
 
     chosen = []
     for sec, s_qst in sec_questions.items():
-        if not (0 <= sec < len(app.config["SECTIONS_COUNT"])):
+        if sec not in sections_count:
             continue
-        cnt = app.config["SECTIONS_COUNT"][sec]
+        cnt = sections_count[sec]
         if len(s_qst) <= cnt:
             subset = s_qst
         else:
@@ -37,7 +39,7 @@ def make_variant(user):
         chosen.extend(subset)
         questions -= set(subset)
 
-    need = sum(app.config["SECTIONS_COUNT"]) - len(chosen)
+    need = sum(sections_count.values()) - len(chosen)
     if need > 0:
         if len(questions) > need:
             chosen.extend(random.sample(questions, need))
