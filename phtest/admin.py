@@ -2,6 +2,7 @@ from flask_admin.form import rules
 
 from flask import request, session, url_for, redirect
 from flask_admin import Admin, AdminIndexView, BaseView, expose
+from flask_admin.actions import action
 from flask_admin.contrib.sqla import ModelView
 from flask_babelex import Babel
 
@@ -31,6 +32,27 @@ class UserModelView(AuthRequiredView):
         "attempts": "Число попыток"
     }
     form_excluded_columns = ("right_questions",)
+
+    @action('increment', '+1 попытка')
+    def action_increment(self, ids):
+        users = db.get_all_users_by_id(ids)
+        for usr in users:
+            usr.attempts += 1
+        db.save_user(users)
+
+    @action('zero', 'Сбросить попытки')
+    def action_zero(self, ids):
+        users = db.get_all_users_by_id(ids)
+        for usr in users:
+            usr.attempts = 0
+        db.save_user(users)
+
+    @action('reset', 'Очистить историю')
+    def action_reset(self, ids):
+        users = db.get_all_users_by_id(ids)
+        for usr in users:
+            usr.right_questions = []
+        db.save_user(users)
 
 class QuestionModelView(AuthRequiredView):
     inline_models = [(db.Answer, {"column_labels": {

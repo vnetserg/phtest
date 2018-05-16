@@ -20,6 +20,9 @@ def get_user_by_login(login):
 def get_user_by_id(uid):
     return session.query(User).filter(User.id == uid).scalar()
 
+def get_all_users_by_id(uids):
+    return session.query(User).filter(User.id.in_(uids)).all()
+
 def get_last_variant(user):
     return session.query(Variant).filter(Variant.user_id == user.id) \
             .order_by(Variant.started.desc()).first()
@@ -28,8 +31,10 @@ def save_variant(var):
     session.add(var)
     session.commit()
 
-def save_user(user):
-    session.add(user)
+def save_user(users):
+    if not isinstance(users, list):
+        users = [users]
+    session.add_all(users)
     session.commit()
 
 def submit_result(result):
