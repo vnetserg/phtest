@@ -105,4 +105,5 @@ def result():
     db.submit_result(var.make_result(result["n_correct"]))
 
     return render_template('result.html', questions=var.questions,
-                           is_chosen=is_chosen, result=result)
+                           is_chosen=is_chosen, result=result,
+                           success_ratio=app.config["GRADE_RATIOS"][0])

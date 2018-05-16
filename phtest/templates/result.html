@@ -75,12 +75,12 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="progress">
-							<div class="progress-bar {{'progress-bar-success' if (result.n_correct / result.n_total) >= 0.6 else 'progress-bar-danger'}}" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{(result.n_correct / result.n_total) * 100}}%; min-width: 2em;">
+							<div class="progress-bar {{'progress-bar-success' if (result.n_correct / result.n_total) >= success_ratio else 'progress-bar-danger'}}" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{(result.n_correct / result.n_total) * 100}}%; min-width: 2em;">
 							 {{((result.n_correct / result.n_total) * 100) | int }}%
 							</div>
 						</div>
-						<h2 class="text-center alert {{'alert-success' if (result.n_correct / result.n_total) >= 0.6 else 'alert-danger'}}">
-								{{'Поздравляем! Вы успешно прошли тестирование!' if (result.n_correct / result.n_total) >= 0.6 else 'К сожалению, тест не пройден, удачи в следующий раз!'}}
+						<h2 class="text-center alert {{'alert-success' if (result.n_correct / result.n_total) >= success_ratio else 'alert-danger'}}">
+								{{'Поздравляем! Вы успешно прошли тестирование!' if (result.n_correct / result.n_total) >= success_ratio else 'К сожалению, тест не пройден, удачи в следующий раз!'}}
 						</h2>
 					</div>
 				</div>
