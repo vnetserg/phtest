@@ -48,7 +48,15 @@ def testlist():
     user = util.get_user_from_session(session)
     if user is None:
         return redirect(url_for('index'))
-    return render_template('testlist.html', user=user)
+        
+    var = db.get_last_variant(user)
+    if var is None or db.variant_finished(var) \
+    or (datetime.now() - var.started).seconds > 90 * 60:
+        continue_test = False
+    else:
+        continue_test = True
+    
+    return render_template('testlist.html', user=user, continue_test=continue_test)
 
 
 @app.route('/test', methods=['GET'])

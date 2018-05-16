@@ -27,9 +27,9 @@
 						    			<label>
 						    				Введите идентификатор:
 						    			</label>
-						    			<input type="text" class="form-control" name="login" value="" placeholder="Логин" />
+						    			<input type="password" autocomplete="off" class="form-control" name="login" value="" placeholder="Логин" />
 						    			{% if noauth %}
-				    						<p class="text-danger" style="margin-top: 5px; float: right;"> Ты далбаёб? нет такого id</p>
+				    						<p class="text-danger" style="margin-top: 5px; float: right;">Несуществующий логин</p>
 				    				
 				    					{% endif %}
 					    			</div>
