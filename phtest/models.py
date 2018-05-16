@@ -51,6 +51,15 @@ class Question(Base):
         right_ids = {ans.id for ans in self.answers if ans.is_correct}
         wrong_ids = {ans.id for ans in self.answers if not ans.is_correct}
         return not (right_ids - ans_ids) and not (wrong_ids & ans_ids)
+
+    def to_dict(self):
+        return {"text": self.text, "section_id": self.section_id,
+                "answers": [a.to_dict() for a in self.answers]}
+
+    @classmethod
+    def from_dict(cls, d):
+        return cls(text=d["text"], section_id=d["section_id"],
+                   answers=[Answer.from_dict(a) for a in d["answers"]])
     
 
 class Answer(Base):
@@ -64,6 +73,12 @@ class Answer(Base):
     def __str__(self):
         return f"#{self.id}. {self.text}"
 
+    def to_dict(self):
+        return {"text": self.text, "is_correct": self.is_correct}
+
+    @classmethod
+    def from_dict(cls, d):
+        return cls(text=d["text"], is_correct=d["is_correct"])
 
 class Variant(Base):
     __tablename__ = 'variants'

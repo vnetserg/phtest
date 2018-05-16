@@ -1,7 +1,7 @@
 SESSION_TYPE = "filesystem"
 SESSION_FILE_DIR = "instance/flask_session"
 SECRET_KEY = b"CHANGE_ME"
-SQLA_DATABASE_URI = "sqlite:///instance/db.sqlite"
+SQLITE_PATH = "instance/db.sqlite"
 DEBUG = True
 
 SERVER_HOST = "127.0.0.1"
