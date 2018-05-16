@@ -33,10 +33,11 @@
 							            </h3>
 							        </div>
 									<div class="panel-body">
+									
 								    	{% for ans in qst.answers %}
 				                        <div class="{{'checkbox' if qst.is_multi() == True else 'radio'}}">
 											<label>
-												<input type="{{'checkbox' if qst.is_multi() == True else 'radio'}}" name="answer" value="{{ans.id}}" id="{{ans.id}}">
+												<input type="{{'checkbox' if qst.is_multi() == True else 'radio'}}" name="answer" value="{{ans.id}}" id="ans1">
 										    		{{ ans.text }}
 											</label>
 										</div>
@@ -52,7 +53,7 @@
 					</div>
 				<div class="row">
 					<div class="col-md-6 col-md-offset-6">
-						<input type="submit" class="btn btn-primary btn-block" value="Завершить тест"/>
+						<input type="submit" class="btn btn-primary btn-block" value="Результаты теста" />
 					</div>
 				</div>
 			</form>

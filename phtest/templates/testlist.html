@@ -30,15 +30,18 @@
 				    			<div class="row">
 					    			<div class="col-md-8 col-md-offset-2">
 						    			<form id="testing-start-form" class="form-horizontal" method="GET" action="/test">
-						    				<input type="submit" class="btn btn-primary btn-block {{'disabled' if user.attempts == 0 else ''}}" value="Начать тестирование (Осталось попыток: {{user.attempts}})"/>
+						    				<div class="form-group">
+						    					<input type="submit" class="btn btn-primary form-control {{'disabled' if user.attempts == 0 else ''}}" value="{{'Продолжить тест' if user.continue_test else 'Начать тестирование (Осталось попыток: ' + user.attempts|string + ')'}}"/>
+						    				</div>
 					    				</form> 
 				    				</div>
 				    			</div>
-				    			<div 
 				    			<div class="row">
 					    			<div class="col-md-8 col-md-offset-2">
 					    				<form id="testing-start-form" class="form-horizontal" method="GET" action="/">
-						    				<input type="submit" class="btn btn-primary btn-block" value="Выход"/>
+					    					<div class="form-group">
+						    					<input type="submit" class="btn btn-primary form-control" value="Выход"/>
+						    				</div>
 					    				</form> 
 						    		</div>
 				    			</div>

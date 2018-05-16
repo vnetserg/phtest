@@ -48,16 +48,48 @@
 					            {% endfor %}
 						  	</div>
 						</div>
-						<script>
-							console.log();
-						</script>
 						{% endfor %}		
 				  	</div>
 				</div>
 			</div>
 			<div class="row">
+				<div class="col-md-12 col-md-offset-1">
+					<div class="col-md-4 ">
+						<h4>
+							Всего вопросов: {{result.n_total}}
+						</h4>
+					</div>				
+					<div class="col-md-4">
+						<h4>
+							Правильно отвечено: {{result.n_correct}}
+						</h4>
+					</div>				
+					<div class="col-md-4">
+						<h4>
+							Неправильно: {{result.n_wrong}}
+						</h4>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="progress">
+							<div class="progress-bar {{'progress-bar-success' if (result.n_correct / result.n_total) >= 0.6 else 'progress-bar-danger'}}" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{(result.n_correct / result.n_total) * 100}}%; min-width: 2em;">
+							 {{((result.n_correct / result.n_total) * 100)|round(1)}}%
+							</div>
+						</div>
+						<h2 class="text-center alert {{'alert-success' if (result.n_correct / result.n_total) >= 0.6 else 'alert-danger'}}">
+								{{'Поздравляем! Вы успешно прошли тестирование!' if (result.n_correct / result.n_total) >= 0.6 else 'Старайся лучше, пидор!'}}
+						</h2>
+					</div>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-md-6 col-md-offset-6">
-					<input type="submit" class="btn btn-primary btn-block" value="Завершить тест"/>
+					<form id="testing-ending-form" class="form-horizontal" method="GET" action="/testlist">
+						<input type="submit" class="btn btn-primary btn-block" value="Завершить тест" />
+					</form>
 				</div>
 			</div>
 		</div>
