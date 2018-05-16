@@ -9,7 +9,7 @@ SERVER_PORT = 5000
 
 ADMIN_LOGIN = "admin"
 SECTIONS_COUNT = [4, 4, 4, 4, 4, 4]
-GRADE_RATIOS = [0.6, 0.8, 0.9]
+GRADE_RATIOS = [0.6, 0.7, 0.8]
 
 
 import os

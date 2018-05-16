@@ -26,11 +26,16 @@ class AdminAuthIndexView(AdminIndexView):
 class UserModelView(AuthRequiredView):
     column_default_sort = "name"
     column_filters = ["name", "group", "login", "attempts"]
+    column_list = column_filters + ["n_answered"]
     column_labels = {
         "name": "ФИО",
         "group": "Группа",
         "login": "Логин",
-        "attempts": "Число попыток"
+        "attempts": "Осталось попыток",
+        "n_answered": "Отвечено вопросов"
+    }
+    column_formatters = {
+        "n_answered": lambda v, c, m, p: len(m.right_questions)
     }
     form_excluded_columns = ("right_questions",)
 
@@ -48,7 +53,7 @@ class UserModelView(AuthRequiredView):
             usr.attempts = 0
         db.save_user(users)
 
-    @action('reset', 'Очистить историю')
+    @action('reset', 'Очистить ответы')
     def action_reset(self, ids):
         users = db.get_all_users_by_id(ids)
         for usr in users:
@@ -69,9 +74,11 @@ class QuestionModelView(AuthRequiredView):
     column_filters = ["text", "section_id"]
 
 class ResultModelView(AuthRequiredView):
+    column_list = ["user", "grade", "n_correct", "n_total", "datetime"]
     column_labels = {
         "n_correct": "Правильных ответов",
         "n_total": "Всего вопросов",
+        "grade": "Оценка",
         "datetime": "Время окончания",
         "user": "Пользователь",
         "user.name": "Пользователь / ФИО",
@@ -81,7 +88,8 @@ class ResultModelView(AuthRequiredView):
     }
     column_formatters = {
         "datetime": lambda v, c, m, p: m.datetime.strftime("%H:%M:%S %d.%m.%Y"),
-        "user": lambda v, c, m, p: f"{m.user.name} ({m.user.group})"
+        "user": lambda v, c, m, p: f"{m.user.name} ({m.user.group})",
+        "grade": lambda v, c, m, p: "отл." if m.n_correct / m.n_total >= app.config["GRADE_RATIOS"][2] else "хор." if m.n_correct / m.n_total >= app.config["GRADE_RATIOS"][1] else "удов." if m.n_correct / m.n_total >= app.config["GRADE_RATIOS"][0] else "неуд."
     }
     column_filters = ["user.name", "user.login", "user.group", "user.attempts",
                       "n_correct", "n_total", "datetime"]
