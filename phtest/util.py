@@ -10,6 +10,10 @@ def get_user_from_session(session):
     user = db.get_user_by_id(uid)
     return user
 
+def variant_expired(var):
+    return var is None or db.variant_finished(var) \
+        or (datetime.now() - var.started).seconds > 90 * 60
+
 def make_variant(user):
     SECTIONS_COUNT = [4, 4, 4, 4, 4, 4]
     questions = set(db.get_unanswered_questions(user))

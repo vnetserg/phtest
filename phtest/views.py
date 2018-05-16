@@ -50,11 +50,7 @@ def testlist():
         return redirect(url_for('index'))
         
     var = db.get_last_variant(user)
-    if var is None or db.variant_finished(var) \
-    or (datetime.now() - var.started).seconds > 90 * 60:
-        continue_test = False
-    else:
-        continue_test = True
+    continue_test = not util.variant_expired(var)
     
     return render_template('testlist.html', user=user, continue_test=continue_test)
 
@@ -68,8 +64,7 @@ def test():
         return redirect(url_for('testlist'))
 
     var = db.get_last_variant(user)
-    if var is None or db.variant_finished(var) \
-    or (datetime.now() - var.started).seconds > 90 * 60:
+    if util.variant_expired(var):
         var = util.make_variant(user)
         db.save_variant(var)
         user.attempts -= 1
@@ -85,8 +80,7 @@ def result():
         return redirect(url_for('index'))
 
     var = db.get_last_variant(user)
-    if var is None or db.variant_finished(var) \
-    or (datetime.now() - var.started).seconds > 90 * 60:
+    if util.variant_expired(var):
         return redirect(url_for('testlist'))
     
     is_chosen = {}
