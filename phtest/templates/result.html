@@ -2,23 +2,45 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title></title> 
+		<title>Тестирование АГЗ МЧС</title> 
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-		
+		<style type="text/css">
+			@media (min-width: 349px){
+				#overflowpanel { height: 300px; overflow-y: auto;}
+			}
+			@media (min-width: 450px){
+				#htext {
+					font-size: large;
+				}
+				#overflowpanel { height: 300px; overflow-y: auto;}
+			}
+			@media (min-width: 768px){
+				#htext {
+					font-size: x-large;
+				}
+				#overflowpanel { height: 400px;overflow-y: auto;}
+			}			
+			@media (min-width: 1200px){
+				#htext {
+					font-size: xx-large;
+				}
+				#overflowpanel { height: 500px;overflow-y: auto;}
+			}
+		</style>		
 	</head>
 	<body style="background-image: url(../static/gerb.png); background-repeat: no-repeat; background-attachment: fixed;">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-9">
+				<div class="col-md-12">
 					<div class="container">
-						<div class="header_main" style="margin: 0px; z-index: 0; height: 100px;">
-							<div class="header" style="height: 100px; position: fixed; z-index: 9999; background-color: #ffffff;">
-								<div class="col-md-9">
-									<h2 class="text-center">Федеральное Государственное Бюджетное Образовательное Учереждение Высшего Образования Академия Гражданской Защиты МЧС России
-									</h2>
+						<div class="header_main" style="margin: 0px; z-index: 0; min-height: 100px; width: inherit;">
+							<div  style="height: auto; z-index: 9999; background-color: #ffffff; width: inherit; position: fixed;">
+								<div class="col-md-12">
+									<p class="text-center" id="htext">Федеральное Государственное Бюджетное Образовательное Учереждение Высшего Образования Академия Гражданской Защиты МЧС России
+									</p>
 								</div>
 							</div>
 						</div>
@@ -32,7 +54,7 @@
 								На данной странцие вы можете ознакомиться со своими результатами!
 							</h3>
 						</div>
-						<div style="overflow-y: auto; height: 500px">
+						<div id="overflowpanel">
 							{% for qst in questions %}
 							<div class="panel panel-info">
 								<div class="panel-heading">
@@ -64,17 +86,17 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 col-md-offset-1">
-					<div class="col-md-4 ">
+					<div class="col-md-4 col-xs-4 col-sm-4">
 						<h4>
 							Всего вопросов: {{result.n_total}}
 						</h4>
 					</div>				
-					<div class="col-md-4">
+					<div class="col-md-4 col-xs-4 col-sm-4">
 						<h4>
 							Правильно отвечено: {{result.n_correct}}
 						</h4>
 					</div>				
-					<div class="col-md-4">
+					<div class="col-md-4 col-xs-4 col-sm-4">
 						<h4>
 							Неправильно: {{result.n_wrong}}
 						</h4>
