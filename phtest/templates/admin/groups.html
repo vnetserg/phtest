@@ -1,0 +1,11 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+Выберите группу, по которой составить отчёт:
+<br><br>
+<ul>
+    {% for group in groups %}
+    <li><a href="{{ group_url }}?group={{ group }}">{{ group }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,8 +1,8 @@
 import os
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func, cast, Float
 from sqlalchemy.interfaces import PoolListener
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session, aliased
 
 from . import app
 from .models import Base, User, Question, Answer, Variant, Result
@@ -74,10 +74,33 @@ def get_unanswered_questions(user):
     qst_ids = [qst.id for qst in user.right_questions]
     return session.query(Question).filter(~Question.id.in_(qst_ids)).all()
 
+def get_all_groups():
+    return [x[0] for x in session.query(User.group).distinct(User.group).all()]
+
 def no_questions(user):
     qst_ids = [qst.id for qst in user.right_questions]
     return session.query(Question).filter(~Question.id.in_(qst_ids)).limit(1).first() is None
 
-
 def variant_finished(var):
     return session.query(Result).filter(Result.variant_id == var.id).limit(1).count() == 1
+
+def get_group_grade_count(group):
+    res = session.query(func.max(cast(Result.n_correct, Float) / Result.n_total), User.id).group_by(Result.user_id).join(User).filter(User.group == group).all()
+    grades = {uid: grade for grade, uid in res}
+
+    variants = session.query(Variant).join(User).filter(User.group == group).all()
+    for var in variants:
+        if var.user_id not in grades:
+            grades[var.user_id] = 0
+
+    ths = app.config["GRADE_RATIOS"]
+    return [sum(1 for g in grades.values() if lo <= g < hi) for lo, hi in zip(
+                [-1] + ths, ths + [2])]
+
+def count_group_students(group):
+    return session.query(func.count(User.id.distinct())).filter(User.group == group).one()[0]
+
+def count_participated_group_students(group):
+    var_uids = {x[0] for x in session.query(Variant.user_id).join(User).filter(User.group == group).all()}
+    res_uids = {x[0] for x in session.query(Result.user_id).join(User).filter(User.group == group).all()}
+    return len(var_uids | res_uids)

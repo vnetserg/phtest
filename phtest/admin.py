@@ -1,4 +1,5 @@
-from flask_admin.form import rules
+import math
+import datetime
 
 from flask import request, session, url_for, redirect
 from flask_admin import Admin, AdminIndexView, BaseView, expose
@@ -10,6 +11,13 @@ from phtest import app, db
 
 
 class AuthRequiredView(ModelView):
+    def is_accessible(self):
+        return session.get("is_admin") is True
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('index'))
+
+class AuthRequiredBaseView(BaseView):
     def is_accessible(self):
         return session.get("is_admin") is True
 
@@ -103,6 +111,34 @@ class ResultModelView(AuthRequiredView):
     def is_editable(self, name):
         return False
 
+class ReportView(AuthRequiredBaseView):
+    @expose("/")
+    def index(self):
+        groups = sorted(db.get_all_groups())
+        return self.render("admin/groups.html", group_url=url_for(".report"),
+                           groups=groups)
+    
+    @expose("/group", methods=["GET"])
+    def report(self):
+        group = request.args.get("group")
+        if group is None:
+            return redirect(url_for(".index"))
+        pad = lambda x: "_" * math.ceil((20 - len(str(x))) / 2) + str(x) \
+                            + "_" * math.floor((20 - len(str(x))) / 2)
+        group_grade_count = db.get_group_grade_count(group)
+        group_params = {
+            "group": group,
+            "students_count": db.count_group_students(group),
+            "testing_students_count": db.count_participated_group_students(group),
+            "A_degree": group_grade_count[3],
+            "B_degree": group_grade_count[2],
+            "C_degree": group_grade_count[1],
+            "D_degree": group_grade_count[0],
+        }
+        return self.render("admin/groupreport.html",
+                           group={k: pad(v) for k, v in group_params.items()},
+                           date=datetime.date.today())
+
 class LogoutView(BaseView):
     @expose("/")
     def index(self):
@@ -113,6 +149,7 @@ admin = Admin(app, name="Тесторивание ФП", index_view=AdminAuthInd
 admin.add_view(UserModelView(db.User, db.session, name="Пользователи"))
 admin.add_view(QuestionModelView(db.Question, db.session, name="Вопросы"))
 admin.add_view(ResultModelView(db.Result, db.session, name="Результаты"))
+admin.add_view(ReportView(name="Отчёты", endpoint="report"))
 admin.add_view(LogoutView(name="Выйти", endpoint="logout"))
 
 
