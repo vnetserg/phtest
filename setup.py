@@ -9,6 +9,7 @@ setup(
     url="https://github.com/vnetserg/phtest",
     author="Фомин Сергей, Пинянский Андрей",
     packages=find_packages(),
+    package_data={'phtest': ["static/*", "templates/*"]},
     install_requires=[
         "Flask",
         "Flask-Admin",
