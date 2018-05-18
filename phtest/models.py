@@ -92,7 +92,8 @@ class Variant(Base):
     started = Column(DateTime, nullable=False)
 
     user = relationship(User)
-    questions = relationship("Question", secondary=var_to_qst_table)
+    questions = relationship("Question", secondary=var_to_qst_table,
+                             order_by="Question.section_id")
 
     def make_result(self, n_correct):
         return Result(variant=self, user=self.user, n_correct=n_correct,

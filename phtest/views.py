@@ -104,7 +104,12 @@ def result():
     db.mark_right_questions(user, right_qst_ids)
     db.submit_result(var.make_result(result["n_correct"]))
 
+    de = [sum(1 for qst in var.questions if qst.id in right_qst_ids
+              and qst.section_id == i) /
+            (sum(1 for qst in var.questions if qst.section_id == i) + 1e-10)
+          for i in range(1, 7)]
+
     return render_template('result.html', questions=var.questions,
                            is_chosen=is_chosen, result=result,
                            success_ratio=app.config["GRADE_RATIOS"][0],
-                           de=[0.5] * 6)
+                           de=de)
