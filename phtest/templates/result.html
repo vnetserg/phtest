@@ -4,9 +4,9 @@
 		<meta charset="utf-8">
 		<title>Тестирование АГЗ МЧС</title> 
 		
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="../static/bootstrapcdn-3.3.7.css" ">
+		<script src="../static/jQuery-1.9.1.js"></script>
+		<script src="../static/bootstrap-3.3.7.js"></script>
 		<style type="text/css">
 			@media (min-width: 349px){
 				#overflowpanel { height: 300px; overflow-y: auto;}
@@ -25,10 +25,17 @@
 			}			
 			@media (min-width: 1200px){
 				#htext {
-					font-size: xx-large;
+					font-size: x-large;
 				}
 				#overflowpanel { height: 500px;overflow-y: auto;}
 			}
+			@media (width: 1920px){
+				#htext {
+					font-size: 25px;
+			}
+			@media (width: 1700px){
+				#htext {
+					font-size: 25px;
 		</style>		
 	</head>
 	<body style="background-image: url(../static/gerb.png); background-repeat: no-repeat; background-attachment: fixed;">
@@ -39,13 +46,14 @@
 						<div class="header_main" style="margin: 0px; z-index: 0; min-height: 100px; width: inherit;">
 							<div  style="height: auto; z-index: 9999; background-color: #ffffff; width: inherit; position: fixed;">
 								<div class="col-md-12">
-									<p class="text-center" id="htext">Федеральное Государственное Бюджетное Образовательное Учереждение Высшего Образования Академия Гражданской Защиты МЧС России
+									<p class="text-center" id="htext">Федеральное Государственное Бюджетное Военное Образовательное Учереждение Высшего Образования Академия Гражданской Защиты МЧС России
 									</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="container">
@@ -112,9 +120,84 @@
 							</div>
 						</div>
 						<h2 class="text-center alert {{'alert-success' if (result.n_correct / result.n_total) >= success_ratio else 'alert-danger'}}">
-								{{'Поздравляем! Вы успешно прошли тестирование!' if (result.n_correct / result.n_total) >= success_ratio else 'К сожалению, тест не пройден, удачи в следующий раз!'}}
+								{% if (result.n_correct / result.n_total) >= success_ratio %}
+								{% if (result.n_correct / result.n_total) < 0.7 %}
+									Полученная Вами оценка: отлично.
+								{% endif %}
+								{% if (result.n_correct / result.n_total) >= 0.7 and (result.n_correct / result.n_total) < 0.8 %}
+									Полученная Вами оценка: хорошо.
+								{% endif %}
+								{% if (result.n_correct / result.n_total) >= 0.8 %}
+									Полученная Вами оценка: отлично.
+								{% endif %}
+								{% else %}
+									К сожалению, тест не пройден, удачи в следующий раз!
+								{% endif %}
 						</h2>
 					</div>
+				</div>
+				<div class="col-md-12">
+					<h4 class="text-center"> Степень освоения дидактических единиц по разделам</h4>
+					<table class="table table-bordered">
+						<tr>
+							<td>ДЕ 1</td>
+							<td>ДЕ 2</td>
+							<td>ДЕ 3</td>
+							<td>ДЕ 4</td>
+							<td>ДЕ 5</td>
+							<td>ДЕ 6</td>
+						</tr>
+						<tr>
+							<td>
+								{{de[0]}}
+								{%if de[0] >= 50 %}
+									<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+								{% else %}
+									<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+								{%endif%}
+							</td>
+							<td>
+								{{de[1]}}
+								{%if de[1] >= 50 %}
+									<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+								{% else %}
+									<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+								{%endif%}
+							</td>
+							<td>
+								{{de[2]}}
+								{%if de[2] >= 50 %}
+									<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+								{% else %}
+									<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+								{%endif%}
+							</td>
+							<td>
+								{{de[3]}}
+								{%if de[3] >= 50 %}
+									<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+								{% else %}
+									<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+								{%endif%}
+							</td>
+							<td>
+								{{de[4]}}
+								{%if de[4] >= 50 %}
+									<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+								{% else %}
+									<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+								{%endif%}
+							</td>
+							<td>
+								{{de[5]}}
+								{%if de[5] >= 50 %}
+									<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+								{% else %}
+									<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+								{%endif%}
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			<div class="row">

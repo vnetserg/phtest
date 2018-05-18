@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title> 
+		
+		<link rel="stylesheet" href="../static/bootstrapcdn-3.3.7.css" ">
+		<script src="../static/jQuery-1.9.1.js"></script>
+		<script src="../static/bootstrap-3.3.7.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3 col-sm-3">
+				</div>
+				<div class="col-md-6 col-sm-6">
+					<h1 class="text-center">
+						Результаты тестирования
+					</h1>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-md-6 col-sm-6">
+					<h4 class="text-left">
+						ФИО обучающегося
+					</h4>
+				</div>
+				<div class="col-md-6 col-sm-6">
+					<h4 class="text-right">
+						<ins>
+							{{user.name}}
+						</ins>
+					</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-sm-6">
+					<h4 class="text-left">
+						Курс, группа
+					</h4>
+				</div>
+				<div class="col-md-6 col-sm-6">
+					<h4 class="text-right">
+						<ins>
+							{{user.group}}
+						</ins>
+					</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-sm-6">
+					<h4 class="text-left">
+						Дисциплина
+					</h4>
+				</div>
+				<div class="col-md-6 col-sm-6">
+					<h4 class="text-right">
+						<ins>
+							Физическая культура
+						</ins>
+					</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-sm-6">
+					<h4 class="text-left">
+						Результат тестирования
+					</h4>
+				</div>
+				<div class="col-md-6 col-sm-6">
+					<h4 class="text-right">
+						<ins>
+							{{user.degree}}
+						</ins>
+					</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-md-offset-1">
+					<div class="col-md-4 col-xs-4 col-sm-4">
+						<h4>
+							Всего вопросов: {{result.n_total}}
+						</h4>
+					</div>				
+					<div class="col-md-4 col-xs-4 col-sm-4">
+						<h4>
+							Правильно отвечено: {{result.n_correct}}
+						</h4>
+					</div>				
+					<div class="col-md-4 col-xs-4 col-sm-4">
+						<h4>
+							Неправильно: {{result.n_wrong}}
+						</h4>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<h4 class="text-center"> Степень освоения дидактических единиц по разделам</h4>
+				<table class="table table-bordered">
+					<tr>
+						<td>ДЕ 1</td>
+						<td>ДЕ 2</td>
+						<td>ДЕ 3</td>
+						<td>ДЕ 4</td>
+						<td>ДЕ 5</td>
+						<td>ДЕ 6</td>
+					</tr>
+					<tr>
+						<td>
+							{{user.de1}}
+							{%if user.de1 >= 50 %}
+								<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+							{% else %}
+								<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+							{%endif%}
+						</td>
+						<td>
+							{{user.de2}}
+							{%if user.de2 >= 50 %}
+								<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+							{% else %}
+								<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+							{%endif%}
+						</td>
+						<td>
+							{{user.de3}}
+							{%if user.de3 >= 50 %}
+								<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+							{% else %}
+								<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+							{%endif%}
+						</td>
+						<td>
+							{{user.de4}}
+							{%if user.de4 >= 50 %}
+								<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+							{% else %}
+								<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+							{%endif%}
+						</td>
+						<td>
+							{{user.de5}}
+							{%if user.de5 >= 50 %}
+								<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+							{% else %}
+								<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+							{%endif%}
+						</td>
+						<td>
+							{{user.de6}}
+							{%if user.de6 >= 50 %}
+								<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>
+							{% else %}
+								<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+							{%endif%}
+						</td>
+					</tr>
+				</table>
+			</div>
+			<br />
+			<br />
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+					<h5 class="text-left">
+						«<ins>{{date.day}}</ins>»<ins>{{date.month}}</ins>20<ins>{{date.year}}</ins>
+					</h5>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
