@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, Text, DateTime, Table, \
-        ForeignKey, Boolean
+        ForeignKey, Boolean, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -95,9 +95,11 @@ class Variant(Base):
     questions = relationship("Question", secondary=var_to_qst_table,
                              order_by="Question.section_id")
 
-    def make_result(self, n_correct):
+    def make_result(self, n_correct, de):
         return Result(variant=self, user=self.user, n_correct=n_correct,
-                      n_total=len(self.questions), datetime=datetime.now())
+                      n_total=len(self.questions), datetime=datetime.now(),
+                      de_0=de[0], de_1=de[1], de_2=de[2], de_3=de[3],
+                      de_4=de[4], de_5=de[5])
 
 
 class Result(Base):
@@ -109,6 +111,12 @@ class Result(Base):
     n_correct = Column(Integer, nullable=False)
     n_total = Column(Integer, nullable=False)
     datetime = Column(DateTime, nullable=False)
+    de_0 = Column(Float)
+    de_1 = Column(Float)
+    de_2 = Column(Float)
+    de_3 = Column(Float)
+    de_4 = Column(Float)
+    de_5 = Column(Float)
 
     variant = relationship(Variant)
     user = relationship(User)

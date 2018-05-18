@@ -2,6 +2,7 @@ import math
 import datetime
 
 from flask import request, session, url_for, redirect
+from flask_admin.model.template import EndpointLinkRowAction
 from flask_admin import Admin, AdminIndexView, BaseView, expose
 from flask_admin.actions import action
 from flask_admin.contrib.sqla import ModelView
@@ -82,12 +83,21 @@ class QuestionModelView(AuthRequiredView):
     column_filters = ["text", "section_id"]
 
 class ResultModelView(AuthRequiredView):
+    column_extra_row_actions = [
+        EndpointLinkRowAction('glyphicon icon-eye-open', 'studentresults.index')
+    ]
     column_list = ["user", "grade", "n_correct", "n_total", "datetime"]
     column_labels = {
         "n_correct": "Правильных ответов",
         "n_total": "Всего вопросов",
         "grade": "Оценка",
         "datetime": "Время окончания",
+        "de_0": "Освоение ДЕ №1",
+        "de_1": "Освоение ДЕ №2",
+        "de_2": "Освоение ДЕ №3",
+        "de_3": "Освоение ДЕ №4",
+        "de_4": "Освоение ДЕ №5",
+        "de_5": "Освоение ДЕ №6",
         "user": "Пользователь",
         "user.name": "Пользователь / ФИО",
         "user.group": "Пользователь / Группа",
@@ -110,6 +120,21 @@ class ResultModelView(AuthRequiredView):
 
     def is_editable(self, name):
         return False
+
+class StudentResultView(AuthRequiredBaseView):
+    @expose("/", methods=["GET"])
+    def index(self):
+        rid = request.args.get("id")
+        if rid is None:
+            return redirect("/admin/result")
+        result = db.get_result_by_id(rid)
+        if result is None:
+            return redirect("/admin/result")
+        ratio = result.n_correct / result.n_total
+        grade_ind = [i for i in range(4) if ratio < (app.config["GRADE_RATIOS"] + [2])[i]][0]
+        return self.render("admin/studentresults.html", user=result.user,
+                           result=result, date=result.datetime,
+                           grade_ind=grade_ind)
 
 class ReportView(AuthRequiredBaseView):
     @expose("/")
@@ -151,6 +176,7 @@ admin.add_view(QuestionModelView(db.Question, db.session, name="Вопросы")
 admin.add_view(ResultModelView(db.Result, db.session, name="Результаты"))
 admin.add_view(ReportView(name="Отчёты", endpoint="report"))
 admin.add_view(LogoutView(name="Выйти", endpoint="logout"))
+admin.add_view(StudentResultView(name="", endpoint="studentresults"))
 
 
 babel = Babel(app)

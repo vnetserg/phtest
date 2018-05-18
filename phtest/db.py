@@ -104,3 +104,6 @@ def count_participated_group_students(group):
     var_uids = {x[0] for x in session.query(Variant.user_id).join(User).filter(User.group == group).all()}
     res_uids = {x[0] for x in session.query(Result.user_id).join(User).filter(User.group == group).all()}
     return len(var_uids | res_uids)
+
+def get_result_by_id(res_id):
+    return session.query(Result).filter(Result.id == res_id).scalar()
