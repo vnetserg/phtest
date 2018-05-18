@@ -106,4 +106,5 @@ def result():
 
     return render_template('result.html', questions=var.questions,
                            is_chosen=is_chosen, result=result,
-                           success_ratio=app.config["GRADE_RATIOS"][0])
+                           success_ratio=app.config["GRADE_RATIOS"][0],
+                           de=[0.5] * 6)
