@@ -1,5 +1,6 @@
 import math
 import datetime
+import urllib.parse
 
 from flask import request, session, url_for, redirect
 from flask_admin.model.template import EndpointLinkRowAction
@@ -141,7 +142,7 @@ class ReportView(AuthRequiredBaseView):
     def index(self):
         groups = sorted(db.get_all_groups())
         return self.render("admin/groups.html", group_url=url_for(".report"),
-                           groups=groups)
+                           groups=groups, quote=urllib.parse.quote)
     
     @expose("/group", methods=["GET"])
     def report(self):

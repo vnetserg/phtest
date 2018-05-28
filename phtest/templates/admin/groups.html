@@ -5,7 +5,7 @@
 <br><br>
 <ul>
     {% for group in groups %}
-    <li><a href="{{ group_url }}?group={{ group }}">{{ group }}</a></li>
+    <li><a href="{{ group_url }}?group={{ quote(group) }}">{{ group }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
