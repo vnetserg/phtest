@@ -4,9 +4,9 @@
 		<meta charset="utf-8">
 		<title>Тестирование АГЗ МЧС</title> 
 		
-		<link rel="stylesheet" href="../static/bootstrapcdn-3.3.7.css" ">
-		<script src="../static/jQuery-1.9.1.js"></script>
-		<script src="../static/bootstrap-3.3.7.js"></script>
+		<link rel="stylesheet" href="/static/bootstrapcdn-3.3.7.css" ">
+		<script src="/static/jQuery-1.9.1.js"></script>
+		<script src="/static/bootstrap-3.3.7.js"></script>
 		<style type="text/css">
 			@media (min-width: 349px){
 				#overflowpanel { height: 300px; overflow-y: auto;}
@@ -38,7 +38,7 @@
 					font-size: 25px;
 		</style>		
 	</head>
-	<body style="background-image: url(../static/gerb.png); background-repeat: no-repeat; background-attachment: fixed;">
+	<body style="background-image: url(/static/gerb.png); background-repeat: no-repeat; background-attachment: fixed;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -78,10 +78,10 @@
 									    		{{ ans.text }}
 										</label> 
 										{%if ans.is_correct%}
-											<div class="pull-right" style="background-image: url(../static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
+											<div class="pull-right" style="background-image: url(/static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
 										{%endif%}
 										{%if is_chosen[ans] and ans.is_correct == False%}
-											<div class="pull-right" style="background-image: url(../static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
+											<div class="pull-right" style="background-image: url(/static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
 										{%endif%}
 									</div>
 						            {% endfor %}
@@ -151,49 +151,49 @@
 							<td class="text-center">
 								{{(100 * de[0]) | round() | int()}}%
 								{%if de[0] >= 0.5 %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
 								{% else %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
 								{%endif%}
 							</td>
 							<td class="text-center">
 								{{ (100 * de[1]) | round() | int()}}%
 								{% if de[1] >= 0.5 %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
 								{% else %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
 								{%endif%}
 							</td>
 							<td class="text-center">
 								{{ (100 * de[2]) | round() | int() }}%
 								{%if de[2] >= 0.5 %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
 								{% else %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
 								{%endif%}
 							</td>
                             <td class="text-center">
 								{{(100 * de[3]) | round() | int()}}%
 								{%if de[3] >= 0.5 %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
 								{% else %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
 								{%endif%}
 							</td>
                             <td class="text-center">
 								{{(100 * de[4]) | round() | int()}}%
 								{%if de[4] >= 0.5 %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
 								{% else %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
 								{%endif%}
 							</td>
                             <td class="text-center">
 								{{(100 * de[5]) | round() | int()}}%
 								{%if de[5] >= 0.5 %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_ok.png); background-repeat: no-repeat;  height: 19px; width: 21px;" aria-hidden="true"></div>
 								{% else %}
-									<div class="pull-right" style="background-image: url(../static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
+									<div class="pull-right" style="background-image: url(/static/glyphicon_remove.png); background-repeat: no-repeat; height: 19px; width: 21px;" aria-hidden="true"></div>
 								{%endif%}
 							</td>
 						</tr>
